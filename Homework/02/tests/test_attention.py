@@ -1,5 +1,5 @@
 import sys
-sys.path.append("Homework/02")
+sys.path.append("Homework/02/")
 import unittest
 
 import torch
@@ -55,6 +55,11 @@ class TestAttention(unittest.TestCase):
             queries=q_, keys=k_, values=v_, projection_matrix=mha.out_proj.weight
         )
 
+        print("Max absolute difference:", torch.max(torch.abs(default_mha - custom_mha)))
+        print("Mean absolute difference:", torch.mean(torch.abs(default_mha - custom_mha)))
+        print("Differences:", default_mha - custom_mha)
+
         self.assertTrue(
             torch.allclose(default_mha, custom_mha, atol=1e-7)
         )
+
