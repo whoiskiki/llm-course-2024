@@ -25,6 +25,9 @@ class TestRotary(unittest.TestCase):
         rpe = RotaryPositionalEmbeddings(dim=DIM_PER_HEAD, max_seq_len=SEQ_LENGTH)
         default_rope = rpe(x)
 
+        print("Max absolute difference:", torch.max(torch.abs(default_rope - custom_rope)))
+        print("Mean absolute difference:", torch.mean(torch.abs(default_rope - custom_rope)))
+
         self.assertTrue(
             torch.allclose(default_rope, custom_rope, atol=1e-5)
         )
