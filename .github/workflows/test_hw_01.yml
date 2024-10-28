@@ -18,7 +18,7 @@ jobs:
         pip install -r Homework/01/requirements.txt
     - name: Run unit test
       run: |
-        python -m unittest tests/test_tokenizer.py
+        python -m unittest Homework/01/tests/test_tokenizer.py
   test-collator:
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +33,7 @@ jobs:
         pip install -r Homework/01/requirements.txt
     - name: Run unit test
       run: |
-        python -m unittest tests/test_collator.py
+        python -m unittest Homework/01/tests/test_collator.py
   test-model:
     runs-on: ubuntu-latest
     steps:
@@ -48,7 +48,7 @@ jobs:
         pip install -r Homework/01/requirements.txt
     - name: Run unit test
       run: |
-        python -m unittest tests/test_model.py
+        python -m unittest Homework/01/tests/test_model.py
   test-dataset:
     runs-on: ubuntu-latest
     steps:
@@ -63,7 +63,7 @@ jobs:
         pip install -r Homework/01/requirements.txt
     - name: Run unit test
       run: |
-        python -m unittest tests/test_dataset.py
+        python -m unittest Homework/01/tests/test_dataset.py
   test-trainer:
     needs: test-model
     runs-on: ubuntu-latest
@@ -79,7 +79,7 @@ jobs:
         pip install -r Homework/01/requirements.txt
     - name: Run unit test
       run: |
-        python -m unittest tests/test_trainer.py
+        python -m unittest Homework/01/tests/test_trainer.py
   test-generation:
     needs: test-model
     runs-on: ubuntu-latest
@@ -95,4 +95,4 @@ jobs:
         pip install -r Homework/01/requirements.txt
     - name: Run unit test
       run: |
-        python -m unittest tests/test_generation.py
+        python -m unittest Homework/01/tests/test_generation.py
