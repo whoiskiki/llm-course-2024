@@ -20,14 +20,14 @@ def test_grouped_scaled_dot_product_attention(embed_dim, num_heads, kv_heads, is
         return
 
     out, attn_weights = scaled_dot_product_gqa(x, kv, kv, is_causal=is_causal, need_weights=True)
-    assert out.size(0) == 1
-    assert out.size(1) == seq_len
-    assert out.size(2) == num_heads
-    assert out.size(3) == embed_dim
-    assert attn_weights.size(0) == 1
-    assert attn_weights.size(1) == num_heads
-    assert attn_weights.size(2) == seq_len
-    assert attn_weights.size(3) == kv_seq_len
+    assert out.size(0) == 1, 'один'
+    assert out.size(1) == seq_len, 'два'
+    assert out.size(2) == num_heads, 'три'
+    assert out.size(3) == embed_dim, 'четыре'
+    assert attn_weights.size(0) == 1, 'пять'
+    assert attn_weights.size(1) == num_heads, 'шесть'
+    assert attn_weights.size(2) == seq_len, 'семь'
+    assert attn_weights.size(3) == kv_seq_len, 'восемь'
 
     # Test that grouped SDPA is equivalent to SDPA if we duplicate the KV heads.
     kv = kv.repeat_interleave(num_heads // kv_heads, dim=2)
