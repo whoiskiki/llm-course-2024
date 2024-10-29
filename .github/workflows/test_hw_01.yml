@@ -15,9 +15,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r Homework/01/requirements.txt
     - name: Run unit test
       run: |
+        cd Homework/01/
         python -m unittest tests/test_tokenizer.py
   test-collator:
     runs-on: ubuntu-latest
@@ -30,9 +31,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r Homework/01/requirements.txt
     - name: Run unit test
       run: |
+        cd Homework/01/
         python -m unittest tests/test_collator.py
   test-model:
     runs-on: ubuntu-latest
@@ -45,9 +47,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r Homework/01/requirements.txt
     - name: Run unit test
       run: |
+        cd Homework/01/
         python -m unittest tests/test_model.py
   test-dataset:
     runs-on: ubuntu-latest
@@ -60,9 +63,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r Homework/01/requirements.txt
     - name: Run unit test
       run: |
+        cd Homework/01/
         python -m unittest tests/test_dataset.py
   test-trainer:
     needs: test-model
@@ -76,9 +80,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r Homework/01/requirements.txt
     - name: Run unit test
       run: |
+        cd Homework/01/
         python -m unittest tests/test_trainer.py
   test-generation:
     needs: test-model
@@ -92,7 +97,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r Homework/01/requirements.txt
     - name: Run unit test
       run: |
+        cd Homework/01/
         python -m unittest tests/test_generation.py
