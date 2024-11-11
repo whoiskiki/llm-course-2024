@@ -12,17 +12,17 @@ class MinHashLSH(MinHash):
         '''
         Возвращает массив из бакетов, где каждый бакет представляет собой N строк матрицы сигнатур.
         '''
-        minhash_buckets = []
-        r = len(minhash) // self.num_buckets
-        extra = len(minhash) % self.num_buckets
+        # minhash_buckets = []
+        # r = len(minhash) // self.num_buckets
+        # extra = len(minhash) % self.num_buckets
 
-        start_index = 0
-        for i in range(self.num_buckets):
-            end_index = start_index + r + (1 if i < extra else 0)
-            minhash_buckets.append(minhash[start_index:end_index])
-            start_index = end_index
+        # start_index = 0
+        # for i in range(self.num_buckets):
+        #     end_index = start_index + r + (1 if i < extra else 0)
+        #     minhash_buckets.append(minhash[start_index:end_index])
+        #     start_index = end_index
 
-        return minhash_buckets
+        # return minhash_buckets
 
     def get_similar_candidates(self, buckets) -> list[tuple]:
         '''
@@ -30,23 +30,23 @@ class MinHashLSH(MinHash):
         Кандидаты похожи, если полностью совпадают мин хеши хотя бы в одном из бакетов.
         Возвращает список из таплов индексов похожих документов.
         '''
-        candidate_pairs = set()
-        bucket_dict = collections.defaultdict(list)
+        # candidate_pairs = set()
+        # bucket_dict = collections.defaultdict(list)
 
-        for doc, bucket in enumerate(buckets):
-            for bucket_signature in bucket:
-                bucket_dict[tuple(bucket_signature)].append(doc)
+        # for doc, bucket in enumerate(buckets):
+        #     for bucket_signature in bucket:
+        #         bucket_dict[tuple(bucket_signature)].append(doc)
 
-        print(bucket_dict)
+        #print(bucket_dict)
 
-        for doc_indices in bucket_dict.values():
-            if len(doc_indices) > 1:
-                print('here')
-                for i in range(len(doc_indices)):
-                    for j in range(i + 1, len(doc_indices)):
-                        candidate_pairs.add((min(doc_indices[i], doc_indices[j]), max(doc_indices[i], doc_indices[j])))
+        # for doc_indices in bucket_dict.values():
+        #     if len(doc_indices) > 1:
+        #         print('here')
+        #         for i in range(len(doc_indices)):
+        #             for j in range(i + 1, len(doc_indices)):
+        #                 candidate_pairs.add((min(doc_indices[i], doc_indices[j]), max(doc_indices[i], doc_indices[j])))
 
-        return list(candidate_pairs)
+        # return list(candidate_pairs)
         
     def run_minhash_lsh(self, corpus_of_texts: list[str]) -> list[tuple]:
         occurrence_matrix = self.get_occurrence_matrix(corpus_of_texts)
