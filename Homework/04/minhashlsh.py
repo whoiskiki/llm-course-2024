@@ -1,8 +1,6 @@
-import pandas as pd
 import numpy as np
-
-
 from minhash import MinHash
+import collections
 
 class MinHashLSH(MinHash):
     def __init__(self, num_permutations: int, num_buckets: int, threshold: float):
@@ -14,23 +12,49 @@ class MinHashLSH(MinHash):
         '''
         Возвращает массив из бакетов, где каждый бакет представляет собой N строк матрицы сигнатур.
         '''
-        # TODO:
-        return 
-    
+        minhash_buckets = []
+        r = len(minhash) // self.num_buckets
+        extra = len(minhash) % self.num_buckets
+
+        start_index = 0
+        for i in range(self.num_buckets):
+            end_index = start_index + r + (1 if i < extra else 0)
+            minhash_buckets.append(minhash[start_index:end_index])
+            start_index = end_index
+
+        return minhash_buckets
+
     def get_similar_candidates(self, buckets) -> list[tuple]:
         '''
-        Находит потенциально похожих кандижатов.
+        Находит потенциально похожих кандидатов.
         Кандидаты похожи, если полностью совпадают мин хеши хотя бы в одном из бакетов.
         Возвращает список из таплов индексов похожих документов.
         '''
-        # TODO:
-        return similar_candidates
+        candidate_pairs = set()
+
+        # Перебираем каждый бакет
+        for bucket in buckets:
+            # Проверяем, что в бакете есть больше одного документа
+            if len(bucket) > 1:
+                # Сравниваем каждый документ в бакете с другими
+                for i in range(len(bucket)):
+                    for j in range(i + 1, len(bucket)):
+                        # Проверяем совпадение min-хешей
+                        if np.array_equal(bucket[i], bucket[j]):
+                            # Добавляем пару индексов как потенциально похожих кандидатов
+                            candidate_pairs.add((i, j))
+
+        return list(candidate_pairs)
         
     def run_minhash_lsh(self, corpus_of_texts: list[str]) -> list[tuple]:
         occurrence_matrix = self.get_occurrence_matrix(corpus_of_texts)
+        print(f'OCCURANCE MATRIX: {occurrence_matrix}')
         minhash = self.get_minhash(occurrence_matrix)
+        print(f'MINHASH VALUES: {minhash}')
         buckets = self.get_buckets(minhash)
+        print(f'BUCKETS: {buckets}')
         similar_candidates = self.get_similar_candidates(buckets)
+        print(f'SIMILAR CANDIDATES: {similar_candidates}')
         
-        return set(similar_candidates)
+        return similar_candidates
     
