@@ -31,9 +31,15 @@ def sort_tuples_in_list(answer):
 
 
 class TestMinhashLSH(unittest.TestCase):
+<<<<<<< HEAD
     def test_get_similar_pairs(self):
         all_pairs = {(0, 2), (0, 3), (1, 2), (1, 3), (2, 3)}
 
+=======
+    def test_get_similar_pairs(self):   
+        all_pairs = {(0,2), (0,3), (1,2), (1,3), (2,3)}
+        
+>>>>>>> b42ca77f6ff7695426d1a57836743debaa0be88a
         min_hash = MinHashLSH(num_permutations=5, num_buckets=1, threshold=0.0)
         answer = min_hash.run_minhash_lsh(Docs)
         print(f"Answer in first test: {answer}")
@@ -49,9 +55,15 @@ class TestMinhashLSH(unittest.TestCase):
         self.assertEqual(sort_tuples_in_list(answer), all_pairs)
 
         min_hash = MinHashLSH(num_permutations=5, num_buckets=3, threshold=0.0)
+<<<<<<< HEAD
         answer = min_hash.run_minhash_lsh(Docs)
         self.assertEqual(sort_tuples_in_list(answer), {(2, 3)})
 
+=======
+        answer = min_hash.run_minhash_lsh(Docs) 
+        self.assertEqual(sort_tuples_in_list(answer), {(2, 3)})
+        
+>>>>>>> b42ca77f6ff7695426d1a57836743debaa0be88a
         min_hash = MinHashLSH(num_permutations=5, num_buckets=3, threshold=0.0)
         answer = min_hash.run_minhash_lsh([Docs[1], Docs[1]])
         self.assertEqual(sort_tuples_in_list(answer), {(0, 1)})
