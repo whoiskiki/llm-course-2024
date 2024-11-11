@@ -31,18 +31,20 @@ class MinHashLSH(MinHash):
         Возвращает список из таплов индексов похожих документов.
         '''
         candidate_pairs = set()
+        bucket_dict = collections.defaultdict(list)
 
-        # Перебираем каждый бакет
-        for bucket in buckets:
-            # Проверяем, что в бакете есть больше одного документа
-            if len(bucket) > 1:
-                # Сравниваем каждый документ в бакете с другими
-                for i in range(len(bucket)):
-                    for j in range(i + 1, len(bucket)):
-                        # Проверяем совпадение min-хешей
-                        if np.array_equal(bucket[i], bucket[j]):
-                            # Добавляем пару индексов как потенциально похожих кандидатов
-                            candidate_pairs.add((i, j))
+        for doc, bucket in enumerate(buckets):
+            for bucket_signature in bucket:
+                bucket_dict[tuple(bucket_signature)].append(doc)
+
+        print(bucket_dict)
+
+        for doc_indices in bucket_dict.values():
+            if len(doc_indices) > 1:
+                print('here')
+                for i in range(len(doc_indices)):
+                    for j in range(i + 1, len(doc_indices)):
+                        candidate_pairs.add((min(doc_indices[i], doc_indices[j]), max(doc_indices[i], doc_indices[j])))
 
         return list(candidate_pairs)
         
