@@ -42,6 +42,7 @@ class TestQuantization(TestCase):
         z = -38
         x_q = torch.tensor([[85, -38, -128], [127, 3, -46], [61, 102, -79]], dtype=torch.int8)
         x = zeropoint_dequantization(s, z, x_q)
+        print(torch.round(x, decimals=3))
         self.assertTrue(torch.equal(
             torch.tensor([[1.495, 0, -1.094], [2.006, 0.498, -0.097], [1.204, 1.702, -0.498]]),
             torch.round(x, decimals=3)
