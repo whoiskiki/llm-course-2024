@@ -1,9 +1,7 @@
 name: Test Homework 07
 
-on: 
-  push:
-    paths:
-      Homework/07/scripts/*.py
+on:
+  workflow_dispatch:
 
 jobs:
   test-lora:
