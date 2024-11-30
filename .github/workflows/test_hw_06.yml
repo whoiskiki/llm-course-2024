@@ -1,9 +1,7 @@
 name: Test Homework 06
 
 on:
-  push:
-    paths:
-      Homework/06/*.py
+  workflow_dispatch:
 
 jobs:
   test-prompts:
