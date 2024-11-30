@@ -8,9 +8,17 @@ def create_prompt(sample: dict) -> str:
     Returns:
         str: A formatted string prompt for the multiple choice question.
     """
-    <ВАШ КОД ЗДЕСЬ>
+    sub = sample['subject']
+    q = sample['question']
+    choices = sample['choices']
 
-    return ...
+    lit = ['A', 'B', 'C', 'D']
+
+    str1 = f"The following are multiple choice questions (with answers) about {sub}.\n{q}\n"
+    a = '\n'.join(map('. '.join, zip(lit, choices)))
+    b = f"\nAnswer:"
+
+    return str1 + a + b
 
 
 def create_prompt_with_examples(sample: dict, examples: list, add_full_example: bool = False) -> str:
@@ -25,6 +33,25 @@ def create_prompt_with_examples(sample: dict, examples: list, add_full_example: 
     Returns:
         str: A formatted string prompt for the multiple choice question with 5 examples.
     """
-    <ВАШ КОД ЗДЕСЬ>
+    lit = ['A', 'B', 'C', 'D']
+    result = ''
 
-    return <ВАШ КОД ЗДЕСЬ>
+    for i in range(len(examples)):
+        sub = examples[i]['subject']
+        q = examples[i]['question']
+        choices = examples[i]['choices']
+        ans = examples[i]['answer']
+
+        str1 = f"The following are multiple choice questions (with answers) about {sub}.\n{q}\n"
+        a = '\n'.join(map('. '.join, zip(lit, choices)))
+
+        if add_full_example:
+            b = f"\nAnswer: {lit[ans]}. {choices[ans]}\n\n"
+        else:
+            b = f"\nAnswer: {lit[ans]}\n\n"
+
+        result += str1 + a + b
+
+    res = create_prompt(sample)
+
+    return result + res
