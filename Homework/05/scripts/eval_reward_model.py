@@ -1,4 +1,5 @@
 from tqdm.auto import tqdm
+from .compute_reward import compute_reward
 
 def eval_reward_model(reward_model, reward_tokenizer, test_dataset, target_label, device='cpu'):
     """
@@ -15,7 +16,7 @@ def eval_reward_model(reward_model, reward_tokenizer, test_dataset, target_label
     Parameters:
     reward_model: The model used to compute the reward scores
     reward_tokenizer: The tokenizer for reward_model
-    tes_dataset: test Dataset
+    test_dataset: test Dataset
     target_label (0 or 1): The label used to select chosen reviews. Reviews with this label are considered chosen,
                   while others are considered rejected.
     device (str, optional): The device on which the computation should be performed. Default is 'cpu'.
@@ -25,14 +26,29 @@ def eval_reward_model(reward_model, reward_tokenizer, test_dataset, target_label
            reward score to the chosen review compared to the rejected review.
 
     Example:
-    >>> accuracy = eval_reward_model(my_reward_model, my_reward_tokenizer, test_data, target_label=1)
-    >>> print(f"Model accuracy: {accuracy:.2%}")
+    #>>> accuracy = eval_reward_model(my_reward_model, my_reward_tokenizer, test_data, target_label=1)
+    #>>> print(f"Model accuracy: {accuracy:.2%}")
     """
 
-    raise NotImplementedError
+    chosen_texts = [i['text'] for i in test_dataset if i['label'] == target_label]
+    rejected_texts = [j['text'] for j in test_dataset if j['label'] != target_label]
 
-    # <YOUR CODE HERE>
+    assert len(chosen_texts) == len(rejected_texts), 'The length is not equal! Try again cause life is pain'
 
-    assert len(chosen_reviews) == len(rejected_reviews)
+    chosen_rewards = []
+    rejected_rewards = []
 
-    # <YOUR CODE HERE>
+    for i in tqdm(range(0, len(chosen_texts), 16), desc="Evaluating batches"):
+        batch_chosen = chosen_texts[i:i + 16]
+        batch_rejected = rejected_texts[i:i + 16]
+
+        chosen_scores = compute_reward(reward_model, reward_tokenizer, batch_chosen, )
+        rejected_scores = compute_reward(reward_model, reward_tokenizer, batch_rejected, )
+
+        chosen_rewards.extend(chosen_scores)
+        rejected_rewards.extend(rejected_scores)
+
+    correct = sum([chosen > rejected for chosen, rejected in zip(chosen_rewards, rejected_rewards)])
+    accuracy = correct / len(chosen_texts)
+
+    return accuracy

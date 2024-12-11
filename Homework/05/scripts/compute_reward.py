@@ -1,4 +1,6 @@
+import torch
 from torch import Tensor, no_grad
+
 
 def compute_reward(reward_model, reward_tokenizer, texts: list[str], device='cpu') -> Tensor:
     """
@@ -15,11 +17,22 @@ def compute_reward(reward_model, reward_tokenizer, texts: list[str], device='cpu
                   from the logits of the reward model.
 
     Example:
-    >>> compute_reward(my_reward_model, my_reward_tokenizer, ["text1", "text2"])
+    #>>> compute_reward(my_reward_model, my_reward_tokenizer, ["text1", "text2"])
     tensor([ 5.1836, -4.8438], device='cpu')
     """
-    raise NotImplementedError
+    tokenized = reward_tokenizer(
+        texts,
+        truncation=True,
+        padding=True,
+        return_tensors='pt'
+    ).to(device)
 
-    # <YOUR CODE HERE>
     with no_grad():
-        # <YOUR CODE HERE>
+        logits = reward_model(**tokenized).logits
+
+    rewards = logits[:, 0]
+
+    rewards = rewards.squeeze()
+    rewards = torch.round(rewards * 10000) / 10000
+    print(f"Rewards: {rewards}")
+    return rewards

@@ -1,3 +1,7 @@
+import torch
+from torch import no_grad
+from .compute_reward import compute_reward
+
 def generate_with_reward_guidance(
         main_model, main_tokenizer,
         reward_model, reward_tokenizer,
@@ -23,6 +27,4 @@ def generate_with_reward_guidance(
     str: The generated text sample with the highest reward score.
     """
 
-    # <YOUR CODE HERE>
-
-    raise NotImplementedError
+    pass
