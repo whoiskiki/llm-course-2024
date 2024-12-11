@@ -1,9 +1,7 @@
 name: Test Homework 05
 
-on: 
-  push:
-    paths:
-      Homework/05/scripts/*.py
+on:
+  workflow_dispatch:
 
 jobs:
   test-pairwise-dataset:
