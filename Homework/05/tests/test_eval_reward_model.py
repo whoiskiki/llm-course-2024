@@ -1,5 +1,5 @@
 from unittest import TestCase
-# from scripts.eval_reward_model import eval_reward_model
+#from scripts.eval_reward_model import eval_reward_model
 import scripts.eval_reward_model as eval_reward_model
 import warnings
 warnings.filterwarnings("ignore")
@@ -104,8 +104,6 @@ class TestEvalRewardModel(TestCase):
                     return np.random.rand()
 
             return tensor([simple_reward(text) for text in texts])
-
-
 
         imdb_test = load_dataset("imdb", split='test')
 
