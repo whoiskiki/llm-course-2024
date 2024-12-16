@@ -26,21 +26,32 @@ class FSM:
         
         Args:
             line (str): line to iterate via FSM
-            start (optional int): if passed, using as start start
+            start (optional int): if passed, using as start
         Returns:
             end (optional int): end state if possible, None otherwise
         """
-        raise NotImplementedError
+        if start is None:
+            start = self.initial
+
+        current_state = self.states[start]
+
+        for c in line:
+            if c in current_state.transitions:
+                current_state = current_state.transitions[c]
+            else:
+                return None
+
+        return self.states.index(current_state)
 
     def accept(self, candidate: str) -> bool:
         """Check if the candidate is accepted by the FSM.
-
         Args:
             candidate (str): line to check
         Returns:
             is_accept (bool): result of checking
         """
-        raise NotImplementedError
+        end_state = self.move(candidate)
+        return end_state is not None and self.is_terminal(end_state)
 
     def validate_continuation(self, state_id: int, continuation: str) -> bool:
         """Check if the continuation can be achieved from the given state.
@@ -51,7 +62,8 @@ class FSM:
         Returns:
             is_possible (bool): result of checking
         """
-        raise NotImplementedError
+        end_state = self.move(continuation, start=state_id)
+        return end_state is not None
 
 
 def build_odd_zeros_fsm() -> tuple[FSM, int]:
@@ -66,8 +78,20 @@ def build_odd_zeros_fsm() -> tuple[FSM, int]:
         fsm (FSM): FSM
         start_state (int): index of initial state
     """
-    raise NotImplementedError
+    state_even = State(is_terminal=False)  #cтроки с четным количеством нулей
+    state_odd = State(is_terminal=True)  #cтроки с нечетным количеством нулей
 
+    # Добавляем переходы по состояниям
+    state_even.add_transition('0', state_odd)
+    state_even.add_transition('1', state_even)
+    state_odd.add_transition('0', state_even)
+    state_odd.add_transition('1', state_odd)
+
+    states = [state_even, state_odd]
+
+    initial = 0
+    fsm = FSM(states, initial=initial)
+    return fsm, initial
 
 
 if __name__ == "__main__":
